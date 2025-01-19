@@ -9,9 +9,19 @@
 </head>
 
 <body class="bg-gray-100">
+    <div class="w-full bg-indigo-600 text-white py-4 px-6 shadow-md">
+        <div class="max-w-7xl mx-auto flex justify-between items-center">
+            <a href="/" class="text-2xl font-bold">Vilalva Artesanato</a>
+            <nav class="flex gap-4">
+                <a href="/form/produto" class="hover:underline">Cadastrar Produto</a>
+                <a href="/outra-pagina" class="hover:underline">Outra Página</a>
+            </nav>
+        </div>
+    </div>
+    
     <div class="flex flex-col items-center">
         <div class="flex w-full max-w-4xl justify-start items-center gap-4">
-            <h1 class="text-3xl font-sans text-center mt-4 font-bold">Vilalva Artesanato</h1>
+            <h1 class="text-3xl font-sans text-center mt-4 font-bold">Seja Bem Vindo</h1>
             <form class="flex w-full" action="/buscar" method="get">
                 <input type="text" placeholder="O que você procura na Vilalva Artesanatos"
                     class="flex-grow border-solid border-2 border-indigo-600 p-2 outline-none rounded-l" type="text"
@@ -19,7 +29,7 @@
                 <input type="submit" class="bg-indigo-600 text-white px-4 rounded-r" value="buscar">
             </form>
         </div>
-        <div class="bg-slate-700 flex w-full text-white mt-4 mb-4 p-2">
+        <div class="bg-indigo-600 flex w-full text-white mt-4 mb-4 p-2">
             <div class="w-full flex justify-center gap-4 items-center">
                 <div class="max-w-7xl">
                     <h2 class="text-2xl mb-2">Produtos Artesanais</h2>
@@ -39,12 +49,25 @@
             <div class="flex flex-wrap justify-center gap-4 mt-4">
                 <% produtos.forEach((produto) => { %>
                     <a href="/produto/<%= produto.nome %>">
-                        <div class="bg-white shadow-lg rounded-lg overflow-hidden w-64 p-5 h-80 flex flex-col items-center">
+                        <div class="bg-white shadow-lg rounded-lg overflow-hidden w-64 p-5 h-100 flex flex-col items-center">
                             <img src="<%= produto.imagem %>" class="w-full h-32 object-cover rounded"
                                 alt="<%= produto.nome %>">
                             <h4 class="text-lg font-semibold mt-2"><%= produto.nome %></h4>
                             <p class="mt-2 text-center"><%= produto.descricao %></p>
-                            <p class="font-semibold mt-2"><%= produto.preco %></p>
+                            <p class="font-semibold mt-2 text-center"><%= produto.preco %>R$</p>
+
+                            <div class="flex justify-between w-full mt-4">
+                                <a href="/editar-produto/<%= produto.codigo %>" class="bg-indigo-600 text-white px-4 py-2 rounded hover:bg-indigo-700">
+                                    Editar
+                                </a>
+                        
+                                <form action="/excluir-produto/<%= produto.codigo %>" method="POST" onsubmit="return confirm('Tem certeza que deseja excluir este produto?');">
+                                    <input type="hidden" name="_method" value="DELETE">
+                                    <button type="submit" class="bg-red-600 text-white px-4 py-2 rounded hover:bg-red-700">
+                                        Excluir
+                                    </button>
+                                </form>
+                            </div>
                         </div>
                     </a>
                 <%}) %>
