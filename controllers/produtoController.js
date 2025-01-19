@@ -1,4 +1,5 @@
 const {Produto, Estoque} = require('../models')
+const { Op } = require('sequelize');
 
 const listar = async (req, res) => {
     try {
@@ -10,6 +11,53 @@ const listar = async (req, res) => {
         throw new Error()
     }
 }
+
+const buscarPorCodigo = async (req, res) => {
+    try {
+        const { codigo } = req.params;
+
+        const produto = await Produto.findOne({ where: { codigo } });
+
+        if (!produto) {
+            res.status(404).render("error", { mensagem: "Produto não encontrado" });
+            return;
+        }
+
+        res.status(200).render("produto", { produto });
+    } catch (error) {
+        res.status(500).render("error", { mensagem: "Erro ao buscar produto" });
+        throw new Error();
+    }
+};
+
+const buscarPorTitulo = async (req, res) => {
+    try {
+        const { titulo } = req.query;
+
+        if (!titulo) {
+            res.status(400).render("error", { mensagem: "O título é obrigatório para a busca" });
+            return;
+        }
+
+        const produtos = await Produto.findAll({
+            where: {
+                nome: {
+                    [Op.like]: `%${titulo}%`,
+                },
+            },
+        });
+
+        if (produtos.length === 0) {
+            res.status(404).render("error", { mensagem: "Nenhum produto encontrado com o título fornecido" });
+            return;
+        }
+
+        res.status(200).render("home", { produtos })
+    } catch (error) {
+        res.status(500).render("error", { mensagem: "Erro ao buscar produtos" });
+        throw new Error();
+    }
+};
 
 const cadastrar = async (req, res) => {
     try {
@@ -145,7 +193,9 @@ module.exports = {
     criar,
     editar,
     atualizar,
-    excluir
+    excluir,
+    buscarPorCodigo,
+    buscarPorTitulo
 }
 
 
