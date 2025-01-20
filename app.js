@@ -3,8 +3,10 @@ var express = require('express');
 var path = require('path');
 var cookieParser = require('cookie-parser');
 var logger = require('morgan');
-var produtosRouter = require('./routes/produtos')
-const methodOverride = require('method-override');
+const session = require('express-session')
+const produtoRouter = require('./routes/produtoRoutes')
+const usuarioRouter = require('./routes/usuarioRoutes')
+const autenticacao = require('./routes/autenticacaoRoutes')
 
 var app = express();
 
@@ -18,14 +20,26 @@ app.use(express.urlencoded({ extended: true }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
-app.use('/', produtosRouter);
+app.use(session({
+  secret: 'Un-035677',  
+  resave: false,
+  saveUninitialized: true,
+  cookie: { secure: false } 
+}));
+
+app.use('/', produtoRouter);
+app.use('/usuario', usuarioRouter);
+app.use('/autenticacao', autenticacao)
 
 // catch 404 and forward to error handler
 app.use(function (req, res, next) {
   next(createError(404));
 });
 
-app.use(methodOverride('_method'));
+app.use((req, res, next) => {
+  res.locals.usuario = req.session.usuario || null;
+  next();
+});
 
 // error handler
 app.use(function (err, req, res, next) {

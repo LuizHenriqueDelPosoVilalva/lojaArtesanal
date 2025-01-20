@@ -1,5 +1,3 @@
-const { Usuario } = require('../models');
-
 class UsuarioBuilder {
     constructor() {
         this.usuario = {}
@@ -100,8 +98,8 @@ class UsuarioBuilder {
 
     async save() {
         try {
-            this.validate()
-            return await Usuario.create(this.usuario);
+            this.validador()
+            return this.usuario
         } catch (error) {
             throw new Error(`Erro ao salvar usuário: ${error.message}`);
         }

@@ -1,13 +1,43 @@
 const { UsuarioBuilder } = require("../builders/usuario")
+const {Usuario} = require('../models')
 
+const criarCliente = (req, res) => {
+    try {
+        const cargo = req.params.cargo
+        res.render("forms/usuario", { cargo: "cliente" })
+    } catch (erro) {
+        res.status(500).render('error', { error: error.message })
+        throw new Error(erro)
+    }
+}
 
+const criarProfissional = (req, res) => {
+    try {
+        const cargo = req.params.cargo
+        res.render("forms/usuario", { cargo: "profissional" })
+    } catch (erro) {
+        res.status(500).render('error', { error: error.message })
+        throw new Error(erro)
+    }
+}
+
+const criarAdm= (req, res) => {
+    try {
+        const cargo = req.params.cargo
+        res.render("forms/usuario", { cargo: "administrador" })
+    } catch (erro) {
+        res.status(500).render('error', { error: error.message })
+        throw new Error(erro)
+    }
+}
 
 const cadastrar = async (req, res) => {
     try {
+        console.log("chegou em cadastrar")
         const cargo = req.params.cargo
-        const { nome, email, telefone, cpf, endereco, numero, cidade, dataDeNascimento, senha, acesso } = req.body;
+        const { nome, email, telefone, cpf, endereco, numero, cidade, dataDeNascimento, senha } = req.body;
 
-        await new UsuarioBuilder()
+        const usuario = await new UsuarioBuilder()
             .setNome(nome)
             .setEmail(email)
             .setTelefone(telefone)
@@ -17,17 +47,23 @@ const cadastrar = async (req, res) => {
             .setCidade(cidade)
             .setDataDeNascimento(dataDeNascimento)
             .setSenha(senha)
-            .setAcesso(acesso)
+            .setAcesso(true)
             .setCargo(cargo)
-            .save();
+            .save()
+        
+        await Usuario.create(usuario)
 
         res.status(201).render("success", { mensagem: "Usuario Cadastrado Com Sucesso" });
     } catch (error) {
-        res.status(400).render('error', { error: error.message });
+        console.log(error)
+        res.status(500).render('error', { error: error.message });
     }
 }
 
 
 module.exports = {
-    cadastrarCliente
+    cadastrar,
+    criarCliente,
+    criarProfissional,
+    criarAdm
 }

@@ -4,7 +4,12 @@ const { Op } = require('sequelize');
 const listar = async (req, res) => {
     try {
         const produtos = await Produto.findAll()
-        res.render("home", { produtos: produtos })
+
+        if (req.session.usuario) {
+            res.render("homeLogado", { produtos: produtos, usuario: req.session.usuario });
+        } else {
+            res.render("home", { produtos: produtos });
+        }
 
     } catch (error) {
         res.render("home", { produtos: [] })
