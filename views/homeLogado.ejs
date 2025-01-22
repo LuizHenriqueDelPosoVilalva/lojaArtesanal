@@ -23,6 +23,9 @@
                 <% if (usuario && usuario.cargo === 'administrador') { %>
                     <a href="/usuario/formulario/administrador" class="hover:underline">Cadastrar Administrador</a>
                 <% } %>
+                <% if (usuario) { %>
+                    <a href="/usuario/perfil/<%= usuario.codigo %>" class="hover:underline">Perfil</a>
+                <% } %>
                     <a href="/autenticacao/logout" class="hover:underline bg-green-600 px-4 py-2 rounded">Sair</a>
             </nav>
         </div>

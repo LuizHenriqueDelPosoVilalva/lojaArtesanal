@@ -1,5 +1,5 @@
 const { UsuarioBuilder } = require("../builders/usuario")
-const {Usuario} = require('../models')
+const { Usuario } = require('../models')
 
 const criarCliente = (req, res) => {
     try {
@@ -7,7 +7,6 @@ const criarCliente = (req, res) => {
         res.render("forms/usuario", { cargo: "cliente" })
     } catch (erro) {
         res.status(500).render('error', { error: error.message })
-        throw new Error(erro)
     }
 }
 
@@ -21,13 +20,28 @@ const criarProfissional = (req, res) => {
     }
 }
 
-const criarAdm= (req, res) => {
+const criarAdm = (req, res) => {
     try {
         const cargo = req.params.cargo
         res.render("forms/usuario", { cargo: "administrador" })
     } catch (erro) {
         res.status(500).render('error', { error: error.message })
         throw new Error(erro)
+    }
+}
+
+const perfil = async (req, res) => {
+    try {
+        const codigo = req.params.codigo
+        const usuario = await Usuario.findOne({ where: { codigo } })
+
+        if (!usuario) {
+            return res.status(404).render('error', { error: 'Usuário não encontrado' });
+        }
+
+        res.render("perfil", { usuarioBuscado: usuario.dataValues })
+    } catch (erro) {
+        res.status(500).render('error', { mensagem: erro.mesage })
     }
 }
 
@@ -50,7 +64,7 @@ const cadastrar = async (req, res) => {
             .setAcesso(true)
             .setCargo(cargo)
             .save()
-        
+
         await Usuario.create(usuario)
 
         res.status(201).render("success", { mensagem: "Usuario Cadastrado Com Sucesso" });
@@ -60,10 +74,44 @@ const cadastrar = async (req, res) => {
     }
 }
 
+const atualizarUsuario = async (req, res) => {
+    try {
+        const { codigo } = req.params;
+        console.log(req.body)
+        const { nome, email, telefone, endereco, numero, cidade, dataDeNascimento, senha } = req.body;
+
+        const usuario = await Usuario.findByPk(codigo);
+        if (!usuario) {
+            return res.status(404).send('Usuário não encontrado.');
+        }
+
+        usuario.nome = nome;
+        usuario.email = email;
+        usuario.telefone = telefone;
+        usuario.endereco = endereco;
+        usuario.numero = numero;
+        usuario.cidade = cidade;
+        usuario.dataDeNascimento = dataDeNascimento;
+
+
+        if (senha) {
+            usuario.senha = senha;
+        }
+        
+        await usuario.save();
+        res.redirect(`/usuario/perfil/${codigo}`);
+    } catch (erro) {
+        res.status(500).render("error", { mensagem: erro.message })
+    }
+};
+
+
 
 module.exports = {
     cadastrar,
     criarCliente,
     criarProfissional,
-    criarAdm
+    criarAdm,
+    atualizarUsuario,
+    perfil
 }
