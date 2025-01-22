@@ -8,12 +8,12 @@
     <title>Produtos Artesanais Vilalva</title>
 </head>
 
-<body class="bg-gray-100">
+<body class="bg-gray-100 mb-4">
     <div class="w-full bg-indigo-600 text-white py-4 px-6 shadow-md">
         <div class="max-w-7xl mx-auto flex justify-between items-center">
             <a href="/" class="text-2xl font-bold">Vilalva Artesanato</a>
             <nav class="flex gap-4 items-center">
-                <% if (usuario && (usuario.cargo === 'administrador' || 'profissional')) { %>
+                <% if (usuario && (usuario.cargo === 'administrador' || usuario.cargo === 'profissional')) { %>
                     <a href="/form/produto" class="hover:underline">Cadastrar Produto</a>
                 <% } %>
                 <% if (usuario && (usuario.cargo === 'administrador')) { %>
@@ -38,6 +38,13 @@
                 <input type="submit" class="bg-indigo-600 text-white px-4 rounded-r" value="buscar">
             </form>
         </div>
+
+        <div class="flex justify-center items-center mt-4">
+            <a href="/carrinho/<%= usuario.codigo %>" class="bg-indigo-600 text-white font-bold py-2 px-6 rounded hover:bg-indigo-700 transition duration-300">
+                Ir para o Carrinho
+            </a>
+        </div>
+
         <div class="bg-indigo-600 flex w-full text-white mt-4 mb-4 p-2">
             <div class="w-full flex justify-center gap-4 items-center">
                 <div class="max-w-7xl">
@@ -59,46 +66,41 @@
             </div>
         </div>
 
-        <div class="w-full max-w-7xl mt-4 mb-4">
-            <div class="flex flex-wrap justify-center gap-4 mt-4">
-                <% produtos.forEach((produto)=> { %>
-                    <a href="/produto/<%= produto.codigo %>">
-                        <div
-                            class="bg-white shadow-lg rounded-lg overflow-hidden w-64 p-5 h-100 flex flex-col items-center">
-                            <div class="min-h-80">
-                                <img src="<%= produto.imagem %>" class="w-full h-32 object-cover rounded"
-                                    alt="<%= produto.nome %>">
-                                <h4 class="text-lg font-semibold mt-2">
-                                    <%= produto.nome %>
-                                </h4>
-                                <p class="mt-2 text-center">
-                                    <%= produto.descricao %>
-                                </p>
-                                <p class="font-semibold mt-2 text-center">
-                                    <%= produto.preco %>R$
-                                </p>
-                            </div>
-
-                            <div class="flex items-center justify-center gap-4 w-full mt-4">
-                                <a href="/editar-produto/<%= produto.codigo %>"
-                                    class="bg-indigo-600 text-white px-4 py-2 rounded hover:bg-indigo-700">
-                                    Editar
-                                </a>
-
-                                <form action="/excluir-produto/<%= produto.codigo %>" method="POST"
-                                    onsubmit="return confirm('Tem certeza que deseja excluir este produto?');">
-                                    <input type="hidden" name="_method" value="DELETE">
-                                    <button type="submit"
-                                        class="bg-red-600 text-white px-4 py-2 rounded hover:bg-red-700">
-                                        Excluir
-                                    </button>
-                                </form>
-                            </div>
+        <div class="flex flex-wrap justify-center gap-4 mt-4">
+            <% produtos.forEach(produto => { %>
+                <a href="/produto/<%= produto.codigo %>">
+                    <div class="bg-white shadow-lg rounded-lg overflow-hidden w-64 p-5 h-100 flex flex-col items-center">
+                        <div class="min-h-80">
+                            <img src="<%= produto.imagem %>" class="w-full h-32 object-cover rounded" alt="<%= produto.nome %>">
+                            <h4 class="text-lg font-semibold mt-2">
+                                <%= produto.nome %>
+                            </h4>
+                            <p class="mt-2 text-center">
+                                <%= produto.descricao %>
+                            </p>
+                            <p class="font-semibold mt-2 text-center">
+                                <%= produto.preco %>R$
+                            </p>
                         </div>
-                    </a>
-                    <%}) %>
-            </div>
+                        <% if (usuario && usuario.cargo === 'administrador') { %>
+                        <div class="flex items-center justify-center gap-4 w-full mt-4">
+                            <a href="/editar-produto/<%= produto.codigo %>" class="bg-indigo-600 text-white px-4 py-2 rounded hover:bg-indigo-700">
+                                Editar
+                            </a>
+                            <form action="/excluir-produto/<%= produto.codigo %>" method="POST"
+                                onsubmit="return confirm('Tem certeza que deseja excluir este produto?');">
+                                <input type="hidden" name="_method" value="DELETE">
+                                <button type="submit" class="bg-red-600 text-white px-4 py-2 rounded hover:bg-red-700">
+                                    Excluir
+                                </button>
+                            </form>
+                        </div>
+                        <% } %>
+                    </div>
+                </a>
+            <% }) %>
         </div>
+        
     </div>
 </body>
 

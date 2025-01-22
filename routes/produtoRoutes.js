@@ -6,7 +6,7 @@ const { listar, cadastrar, criar, editar, atualizar, excluir, buscarPorTitulo, b
 /* GET home page. */
 router.get('/', listar);
 router.get('/form/produto', middlewareAutenticacao(['administrador', 'profissional']), criar)
-router.get('/produto/:codigo', middlewareAutenticacao(['administrador', 'profissional, cliente']),buscarPorCodigo)
+router.get('/produto/:codigo', middlewareAutenticacao(['administrador', 'profissional', 'cliente']),buscarPorCodigo)
 router.get('/buscar', buscarPorTitulo);
 router.post('/', middlewareAutenticacao(['administrador', 'profissional']),cadastrar)
 router.get('/editar-produto/:codigo', middlewareAutenticacao(['administrador']), editar)

@@ -71,19 +71,6 @@
                             </div>
 
                             <div class="flex items-center justify-center gap-4 w-full mt-4">
-                                <a href="/editar-produto/<%= produto.codigo %>"
-                                    class="bg-indigo-600 text-white px-4 py-2 rounded hover:bg-indigo-700">
-                                    Editar
-                                </a>
-
-                                <form action="/excluir-produto/<%= produto.codigo %>" method="POST"
-                                    onsubmit="return confirm('Tem certeza que deseja excluir este produto?');">
-                                    <input type="hidden" name="_method" value="DELETE">
-                                    <button type="submit"
-                                        class="bg-red-600 text-white px-4 py-2 rounded hover:bg-red-700">
-                                        Excluir
-                                    </button>
-                                </form>
                             </div>
                         </div>
                     </a>

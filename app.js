@@ -6,7 +6,8 @@ var logger = require('morgan');
 const session = require('express-session')
 const produtoRouter = require('./routes/produtoRoutes')
 const usuarioRouter = require('./routes/usuarioRoutes')
-const autenticacao = require('./routes/autenticacaoRoutes')
+const autenticacaoRouter = require('./routes/autenticacaoRoutes')
+const itemPedidoRouter = require('./routes/itensPedidoRoutes')
 
 var app = express();
 
@@ -27,18 +28,20 @@ app.use(session({
   cookie: { secure: false } 
 }));
 
-app.use('/', produtoRouter);
-app.use('/usuario', usuarioRouter);
-app.use('/autenticacao', autenticacao)
-
-// catch 404 and forward to error handler
-app.use(function (req, res, next) {
-  next(createError(404));
-});
 
 app.use((req, res, next) => {
   res.locals.usuario = req.session.usuario || null;
   next();
+});
+
+app.use('/', produtoRouter);
+app.use('/usuario', usuarioRouter);
+app.use('/autenticacao', autenticacaoRouter)
+app.use('/carrinho', itemPedidoRouter)
+
+// catch 404 and forward to error handler
+app.use(function (req, res, next) {
+  next(createError(404));
 });
 
 // error handler

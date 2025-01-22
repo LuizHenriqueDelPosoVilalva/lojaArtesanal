@@ -2,7 +2,6 @@ const { Usuario } = require('../models');
 
 const autenticar = (req, res) => {
     try {
-        console.log("Chegou")
         res.render("forms/login")
     } catch(erro) {
         res.status(500).render({mensagem: erro.message})
@@ -14,18 +13,17 @@ const login = async (req, res) => {
         const { email, senha } = req.body;
 
         if (!email || !senha) {
-            throw new Error("Email e senha são obrigatórios.");
+            return res.status(403).render('error', { mensagem: 'Senha e email são obrigatórios' });
         }
 
         const usuario = await Usuario.findOne({ where: { email } });
 
         if (!usuario) {
-            throw new Error("Usuário não encontrado.");
+            return res.status(403).render('error', { mensagem: 'Usuario não encontrado' });
         }
 
-
         if (usuario.senha !== senha) {
-            throw new Error("Credenciais inválidas.");
+            return res.status(403).render('error', { mensagem: 'Senha invalida' });
         }
 
         req.session.usuario = {
@@ -33,12 +31,11 @@ const login = async (req, res) => {
             nome: usuario.nome,
             email: usuario.email,
             cargo: usuario.cargo
-        };
+        }
 
-        res.status(200).render('success', { mensagem: "Login realizado com sucesso." });
+        res.redirect('/');
     } catch (error) {
-        console.error("Erro no login:", error.message);
-        res.status(401).render('error', { mensagem: error.message });
+        throw new Error(`${error}`)
     }
 };
 

@@ -30,7 +30,8 @@ module.exports = (sequelize, DataTypes) => {
     Usuario_codigo: DataTypes.INTEGER,
     Estoque_codigo: DataTypes.INTEGER,
     quantidadeTotal: DataTypes.INTEGER,
-    valorTotal: DataTypes.FLOAT
+    valorTotal: DataTypes.FLOAT,
+    concluido: DataTypes.BOOLEAN
   }, {
     sequelize,
     modelName: 'ItemPedido',

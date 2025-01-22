@@ -30,8 +30,8 @@ const buscarPorCodigo = async (req, res) => {
 
         res.status(200).render("produto", { produto });
     } catch (error) {
-        res.status(500).render("error", { mensagem: "Erro ao buscar produto" });
-        throw new Error();
+        console.log(error)
+        throw new Error({mensagem: error});
     }
 };
 

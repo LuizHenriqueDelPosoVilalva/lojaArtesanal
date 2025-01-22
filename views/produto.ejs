@@ -28,9 +28,28 @@
                 
                 <p class="text-xl font-semibold text-indigo-600 mb-4">Preço: <%= produto.preco.toFixed(2) %> R$</p>
 
-                <button class="bg-indigo-600 text-white font-bold py-2 px-6 rounded hover:bg-indigo-700 transition duration-300">
-                    Comprar Agora
-                </button>
+                <form action="/carrinho/adicionar" method="POST" class="flex flex-col space-y-4">
+                    <input type="hidden" name="produtoCodigo" value="<%= produto.codigo %>">
+                    <input type="hidden" name="usuarioCodigo" value="<%= usuario.codigo %>">
+                    
+                    <label for="quantidade" class="text-gray-700">Quantidade:</label>
+                    <input 
+                        type="number" 
+                        name="quantidade" 
+                        id="quantidade" 
+                        value="1" 
+                        min="1" 
+                        class="w-24 px-4 py-2 border rounded focus:outline-none focus:ring-2 focus:ring-indigo-500"
+                        required
+                    >
+
+                    <button 
+                        type="submit" 
+                        class="bg-indigo-600 text-white font-bold py-2 px-6 rounded hover:bg-indigo-700 transition duration-300"
+                    >
+                        Adicionar ao Carrinho
+                    </button>
+                </form>
 
                 <a href="/" class="mt-6 text-indigo-500 hover:underline">Voltar para a loja</a>
             </div>
