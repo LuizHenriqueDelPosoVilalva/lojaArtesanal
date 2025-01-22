@@ -1,4 +1,5 @@
-const { Usuario } = require('../models');
+const { Usuario } = require('../models')
+const AdminSession = require('../singleton/admin')
 
 const autenticar = (req, res) => {
     try {
@@ -26,6 +27,18 @@ const login = async (req, res) => {
             return res.status(403).render('error', { mensagem: 'Senha invalida' });
         }
 
+        if (!usuario.acesso) {
+            return res.status(403).render('error', { mensagem: 'Acesso negado. Seu acesso está desativado.' });
+        }
+
+        if (usuario.cargo === 'administrador') {
+            try {
+                AdminSession.logarAdmin(usuario)
+            } catch (error) {
+                return res.status(403).render('error', { mensagem: error.message });
+            }
+        }
+
         req.session.usuario = {
             codigo: usuario.codigo,
             nome: usuario.nome,
@@ -41,6 +54,10 @@ const login = async (req, res) => {
 
 const logout = (req, res) => {
     try {
+        if (req.session.usuario && req.session.usuario.cargo === 'administrador') {
+            AdminSession.deslogarAdmin()
+        }
+
         req.session.destroy((err) => {
             if (err) {
                 return res.status(500).render('error', { mensagem: 'Erro ao encerrar a sessão.' });
