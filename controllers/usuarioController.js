@@ -1,6 +1,15 @@
 const { UsuarioBuilder } = require("../builders/usuario")
 const { Usuario } = require('../models')
 
+const listarUsuarios = async(req, res) => {
+    try{
+        const usuarios = await Usuario.findAll()
+        res.status(200).render("usuarios", {usuarios: usuarios})
+    } catch(erro) {
+        res.status(500).render("error", {mensagem: erro.mesage})
+    }
+}
+
 const criarCliente = (req, res) => {
     try {
         const cargo = req.params.cargo
@@ -105,7 +114,22 @@ const atualizarUsuario = async (req, res) => {
     }
 };
 
+const excluir = async(req, res) => {
+    try{
+        const { codigo } = req.params
+        const usuario = await Usuario.findOne({ where: { codigo } })
 
+        if (!usuario) {
+            res.status(404).render("error", { mensagem: "Usuario não encontrado" });
+            return
+        }
+
+        await usuario.destroy()
+        res.status(200).redirect("/usuario")
+    } catch(erro) {
+        res.status(500).render("error", { mensagem: erro.message })
+    }
+}
 
 module.exports = {
     cadastrar,
@@ -113,5 +137,7 @@ module.exports = {
     criarProfissional,
     criarAdm,
     atualizarUsuario,
-    perfil
+    perfil,
+    listarUsuarios,
+    excluir
 }

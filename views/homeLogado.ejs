@@ -13,15 +13,17 @@
         <div class="max-w-7xl mx-auto flex justify-between items-center">
             <a href="/" class="text-2xl font-bold">Vilalva Artesanato</a>
             <nav class="flex gap-4 items-center">
+                <% if (usuario && usuario.cargo === 'administrador') { %>
+                    <a href="/usuario/" class="hover:underline">Listar Usuarios</a>
+                <% } %>
                 <% if (usuario && (usuario.cargo === 'administrador' || usuario.cargo === 'profissional')) { %>
                     <a href="/form/produto" class="hover:underline">Cadastrar Produto</a>
                 <% } %>
                 <% if (usuario && (usuario.cargo === 'administrador')) { %>
                     <a href="/usuario/formulario/profissional" class="hover:underline">Cadastrar Profissional</a>
                 <% } %>
-            
                 <% if (usuario && usuario.cargo === 'administrador') { %>
-                    <a href="/usuario/formulario/administrador" class="hover:underline">Cadastrar Administrador</a>
+                    <a href="/usuario/formulario/cliente" class="hover:underline">Criar conta (cliente)</a>
                 <% } %>
                 <% if (usuario) { %>
                     <a href="/usuario/perfil/<%= usuario.codigo %>" class="hover:underline">Perfil</a>
