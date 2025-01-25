@@ -15,7 +15,7 @@ const middlewareAutenticacao = (cargosPermitidos) => {
         } catch (error) {
             res.status(403).render('error', { mensagem: error.message });
         }
-    };
+    }
 }
 
 module.exports = {middlewareAutenticacao}

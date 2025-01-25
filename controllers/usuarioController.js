@@ -15,7 +15,7 @@ const criarCliente = (req, res) => {
         const cargo = req.params.cargo
         res.render("forms/usuario", { cargo: "cliente" })
     } catch (erro) {
-        res.status(500).render('error', { error: error.message })
+        res.status(500).render('error', { error: erro.message })
     }
 }
 
@@ -24,7 +24,7 @@ const criarProfissional = (req, res) => {
         const cargo = req.params.cargo
         res.render("forms/usuario", { cargo: "profissional" })
     } catch (erro) {
-        res.status(500).render('error', { error: error.message })
+        res.status(500).render('error', { error: erro.message })
         throw new Error(erro)
     }
 }
@@ -34,7 +34,7 @@ const criarAdm = (req, res) => {
         const cargo = req.params.cargo
         res.render("forms/usuario", { cargo: "administrador" })
     } catch (erro) {
-        res.status(500).render('error', { error: error.message })
+        res.status(500).render('error', { error: erro.message })
         throw new Error(erro)
     }
 }

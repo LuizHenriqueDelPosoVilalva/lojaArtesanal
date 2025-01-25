@@ -187,8 +187,7 @@ const excluir = async (req, res) => {
 
         res.status(200).render("success", { mensagem: "Produto excluído com sucesso!" });
     } catch (error) {
-        res.status(500).render("error", { mensagem: "Erro ao excluir produto" });
-        throw new Error();
+        res.status(500).render("error", { mensagem: error.message })
     }
 };
 
