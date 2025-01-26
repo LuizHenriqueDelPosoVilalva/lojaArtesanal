@@ -4,38 +4,38 @@ const AdminSession = require('../singleton/admin')
 const autenticar = (req, res) => {
     try {
         res.render("forms/login")
-    } catch(erro) {
-        res.status(500).render({mensagem: erro.message})
+    } catch (erro) {
+        res.status(500).render("error", { mensagem: erro.message })
     }
 }
 
 const login = async (req, res) => {
     try {
-        const { email, senha } = req.body;
+        const { email, senha } = req.body
 
         if (!email || !senha) {
-            return res.status(403).render('error', { mensagem: 'Senha e email são obrigatórios' });
+            return res.status(403).render('error', { mensagem: 'Senha e email são obrigatórios' })
         }
 
-        const usuario = await Usuario.findOne({ where: { email } });
+        const usuario = await Usuario.findOne({ where: { email } })
 
         if (!usuario) {
-            return res.status(403).render('error', { mensagem: 'Usuario não encontrado' });
+            return res.status(403).render('error', { mensagem: 'Usuario não encontrado' })
         }
 
         if (usuario.senha !== senha) {
-            return res.status(403).render('error', { mensagem: 'Senha invalida' });
+            return res.status(403).render('error', { mensagem: 'Senha invalida' })
         }
 
         if (!usuario.acesso) {
-            return res.status(403).render('error', { mensagem: 'Acesso negado. Seu acesso está desativado.' });
+            return res.status(403).render('error', { mensagem: 'Acesso negado. Seu acesso está desativado.' })
         }
 
         if (usuario.cargo === 'administrador') {
             try {
                 AdminSession.logarAdmin(usuario)
-            } catch (error) {
-                return res.status(403).render('error', { mensagem: error.message });
+            } catch (erro) {
+                return res.status(403).render('error', { mensagem: erro.message })
             }
         }
 
@@ -46,11 +46,11 @@ const login = async (req, res) => {
             cargo: usuario.cargo
         }
 
-        res.redirect('/');
-    } catch (error) {
-        throw new Error(`${error}`)
+        res.redirect('/')
+    } catch (erro) {
+        res.status(500).render("error", { mensagem: erro.message })
     }
-};
+}
 
 const logout = (req, res) => {
     try {
@@ -60,15 +60,14 @@ const logout = (req, res) => {
 
         req.session.destroy((err) => {
             if (err) {
-                return res.status(500).render('error', { mensagem: 'Erro ao encerrar a sessão.' });
+                return res.status(500).render('error', { mensagem: 'Erro ao encerrar a sessão.' })
             }
-            res.redirect('/');
-        });
-    } catch(erro) {
-        console.error('Erro ao encerrar a sessão:', err);
-        return res.status(500).render('error', { mensagem: 'Erro ao encerrar a sessão.' });
-    } 
-};
+            res.redirect('/')
+        })
+    } catch (erro) {
+        return res.status(403).render('error', { mensagem: erro.message })
+    }
+}
 
 module.exports = {
     login,

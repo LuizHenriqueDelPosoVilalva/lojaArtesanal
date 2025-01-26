@@ -52,7 +52,7 @@ const listarCarrinho = async (req, res) => {
 
         res.render('carrinho', { itensCarrinho });
     } catch (erro) {
-        res.status(500).render("error", { mensagem: `${erro}` })
+        return res.status(403).render('error', { mensagem: erro.message });
     }
 }
 

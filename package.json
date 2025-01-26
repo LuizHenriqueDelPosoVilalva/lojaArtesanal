@@ -8,6 +8,7 @@
   "dependencies": {
     "@sequelize/mysql": "^7.0.0-alpha.43",
     "cookie-parser": "~1.4.4",
+    "cpf-cnpj-validator": "^1.0.3",
     "debug": "~2.6.9",
     "ejs": "^3.1.10",
     "express": "^4.21.1",

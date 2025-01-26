@@ -1,18 +1,17 @@
 const { UsuarioBuilder } = require("../builders/usuario")
 const { Usuario } = require('../models')
 
-const listarUsuarios = async(req, res) => {
-    try{
+const listarUsuarios = async (req, res) => {
+    try {
         const usuarios = await Usuario.findAll()
-        res.status(200).render("usuarios", {usuarios: usuarios})
-    } catch(erro) {
-        res.status(500).render("error", {mensagem: erro.mesage})
+        res.status(200).render("usuarios", { usuarios: usuarios })
+    } catch (erro) {
+        res.status(500).render("error", { mensagem: erro.mesage })
     }
 }
 
 const criarCliente = (req, res) => {
     try {
-        const cargo = req.params.cargo
         res.render("forms/usuario", { cargo: "cliente" })
     } catch (erro) {
         res.status(500).render('error', { error: erro.message })
@@ -21,21 +20,17 @@ const criarCliente = (req, res) => {
 
 const criarProfissional = (req, res) => {
     try {
-        const cargo = req.params.cargo
         res.render("forms/usuario", { cargo: "profissional" })
     } catch (erro) {
         res.status(500).render('error', { error: erro.message })
-        throw new Error(erro)
     }
 }
 
 const criarAdm = (req, res) => {
     try {
-        const cargo = req.params.cargo
         res.render("forms/usuario", { cargo: "administrador" })
     } catch (erro) {
         res.status(500).render('error', { error: erro.message })
-        throw new Error(erro)
     }
 }
 
@@ -56,7 +51,6 @@ const perfil = async (req, res) => {
 
 const cadastrar = async (req, res) => {
     try {
-        console.log("chegou em cadastrar")
         const cargo = req.params.cargo
         const { nome, email, telefone, cpf, endereco, numero, cidade, dataDeNascimento, senha } = req.body;
 
@@ -78,7 +72,6 @@ const cadastrar = async (req, res) => {
 
         res.status(201).render("success", { mensagem: "Usuario Cadastrado Com Sucesso" });
     } catch (error) {
-        console.log(error)
         res.status(500).render('error', { error: error.message });
     }
 }
@@ -86,7 +79,6 @@ const cadastrar = async (req, res) => {
 const atualizarUsuario = async (req, res) => {
     try {
         const { codigo } = req.params;
-        console.log(req.body)
         const { nome, email, telefone, endereco, numero, cidade, dataDeNascimento, senha } = req.body;
 
         const usuario = await Usuario.findByPk(codigo);
@@ -106,7 +98,7 @@ const atualizarUsuario = async (req, res) => {
         if (senha) {
             usuario.senha = senha;
         }
-        
+
         await usuario.save();
         res.redirect(`/usuario/perfil/${codigo}`);
     } catch (erro) {
@@ -114,8 +106,8 @@ const atualizarUsuario = async (req, res) => {
     }
 };
 
-const excluir = async(req, res) => {
-    try{
+const excluir = async (req, res) => {
+    try {
         const { codigo } = req.params
         const usuario = await Usuario.findOne({ where: { codigo } })
 
@@ -126,8 +118,30 @@ const excluir = async(req, res) => {
 
         await usuario.destroy()
         res.status(200).redirect("/usuario")
-    } catch(erro) {
+    } catch (erro) {
         res.status(500).render("error", { mensagem: erro.message })
+    }
+}
+
+const bloquearOuLiberarUsuario = async (req, res) => {
+    try {
+        const { codigo } = req.params;
+
+        const usuario = await Usuario.findOne({ where: { codigo } });
+        if (!usuario) {
+            return res.status(404).render('error', { mensagem: 'Usuário não encontrado.' });
+        }
+
+        usuario.acesso = !usuario.acesso;
+
+        await usuario.save()
+        const mensagem = usuario.acesso
+            ? 'Acesso do usuário liberado com sucesso.'
+            : 'Acesso do usuário bloqueado com sucesso.'
+
+        res.status(200).render("success", { mensagem: mensagem })
+    } catch (erro) {
+        res.status(500).render('error', { mensagem: erro.message })
     }
 }
 
@@ -139,5 +153,6 @@ module.exports = {
     atualizarUsuario,
     perfil,
     listarUsuarios,
-    excluir
+    excluir,
+    bloquearOuLiberarUsuario
 }

@@ -29,6 +29,12 @@
                         <a href="/usuario/perfil/<%= item.codigo %>" class="bg-indigo-600 text-white px-4 py-2 rounded hover:bg-indigo-700">
                             Editar
                         </a>
+                        <form action="/usuario/bloquear/<%= item.codigo %>" method="POST">
+                            <input type="hidden" name="acesso" value="<%= !item.acesso %>">
+                            <button type="submit" class="<%= item.acesso ? 'bg-gray-400 hover:bg-gray-500' : 'bg-yellow-600 hover:bg-yellow-700' %> text-white px-4 py-2 rounded">
+                                <%= item.acesso ? 'Liberar Acesso' : 'Bloquear Acesso' %>
+                            </button>
+                        </form>
                         <form action="/usuario/excluir/<%= item.codigo %>" method="POST"
                             onsubmit="return confirm('Tem certeza que deseja excluir este usuario?');">
                             <input type="hidden" name="_method" value="DELETE">

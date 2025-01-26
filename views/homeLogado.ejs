@@ -79,12 +79,14 @@
                             <h4 class="text-lg font-semibold mt-2">
                                 <%= produto.nome %>
                             </h4>
-                            <p class="mt-2 text-center">
-                                <%= produto.descricao %>
-                            </p>
-                            <p class="font-semibold mt-2 text-center">
-                                <%= produto.preco %>R$
-                            </p>
+                            <div class="flex-col justify-center align-middle">
+                                <p class="mt-2 text-center">
+                                    <%= produto.descricao %>
+                                </p>
+                                <p class="font-semibold mt-2 text-center">
+                                    <%= produto.preco %>R$
+                                </p>
+                            </div>
                         </div>
                         <% if (usuario && usuario.cargo === 'administrador') { %>
                         <div class="flex items-center justify-center gap-4 w-full mt-4">
