@@ -4,13 +4,13 @@ const {cadastrar, criarAdm, criarCliente, criarProfissional, atualizarUsuario, p
 const {middlewareAutenticacao} = require('../middleware/middlewareAutenticacao')
 
 router.get("/", middlewareAutenticacao(['administrador']),listarUsuarios)
-router.post("/excluir/:codigo", excluir)
+router.post("/excluir/:id", excluir)
 router.post("/:cargo", cadastrar)
-router.post("/atualizar/:codigo", atualizarUsuario)
+router.post("/atualizar/:id", atualizarUsuario)
 router.get("/formulario/cliente",criarCliente)
-router.get("/perfil/:codigo",perfil)
+router.get("/perfil/:id",perfil)
 router.get("/formulario/profissional", middlewareAutenticacao(['administrador']),criarProfissional)
 router.get("/formulario/administrador",middlewareAutenticacao(['administrador']),criarAdm)
-router.post("/bloquear/:codigo", middlewareAutenticacao(['administrador']), bloquearOuLiberarUsuario)
+router.post("/bloquear/:id", middlewareAutenticacao(['administrador']), bloquearOuLiberarUsuario)
 
 module.exports = router;

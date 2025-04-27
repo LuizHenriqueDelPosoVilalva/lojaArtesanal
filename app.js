@@ -8,8 +8,18 @@ const produtoRouter = require('./routes/produtoRoutes')
 const usuarioRouter = require('./routes/usuarioRoutes')
 const autenticacaoRouter = require('./routes/autenticacaoRoutes')
 const itemPedidoRouter = require('./routes/itensPedidoRoutes')
+const mongoose = require('mongoose')
 
 var app = express();
+
+const mongoURI = 'mongodb+srv://luizvilalva:luizhuebr7849497@lojaartesanal.bylbvdn.mongodb.net/lojaartesanal?retryWrites=true&w=majority'
+
+mongoose.connect(mongoURI, {
+  useNewUrlParser: true,
+  useUnifiedTopology: true,
+})
+.then(() => console.log('Conectado ao MongoDB'))
+.catch((err) => console.error('Erro ao conectar ao MongoDB:', err))
 
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));

@@ -12,7 +12,7 @@
     <div class="w-full max-w-2xl bg-white shadow-lg rounded-lg overflow-hidden">
         <div class="p-6">
             <h2 class="text-3xl font-semibold text-gray-800 mb-4">Perfil do Usuário</h2>
-            <form action="/usuario/atualizar/<%= usuarioBuscado.codigo %>" method="POST" class="space-y-4">
+            <form action="/usuario/atualizar/<%= usuarioBuscado._id %>" method="POST" class="space-y-4">
                 <div>
                     <label for="nome" class="block text-sm font-medium text-gray-700">Nome</label>
                     <input type="text" id="nome" name="nome" value="<%= usuarioBuscado.nome %>" required

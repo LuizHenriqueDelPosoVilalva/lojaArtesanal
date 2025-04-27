@@ -23,4 +23,6 @@ class AdminSession {
     }
 }
 
+const instance = new AdminSession()
+
 module.exports = new AdminSession()

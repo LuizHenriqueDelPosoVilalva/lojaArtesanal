@@ -1,41 +1,32 @@
-'use strict';
-const {
-  Model
-} = require('sequelize');
-module.exports = (sequelize, DataTypes) => {
-  class ItemPedido extends Model {
-    /**
-     * Helper method for defining associations.
-     * This method is not a part of Sequelize lifecycle.
-     * The `models/index` file will call this method automatically.
-     */
-    static associate(models) {
-      ItemPedido.belongsTo(models.Usuario, {
-        foreignKey: 'Usuario_codigo',
-        onDelete: 'CASCADE',
-      });
-      ItemPedido.belongsTo(models.Estoque, {
-        foreignKey: 'Estoque_codigo',
-        onDelete: 'CASCADE',
-      });
-    }
-  }
-  ItemPedido.init({
-    codigo: {
-      type: DataTypes.INTEGER,
-      allowNull: false,
-      autoIncrement: true,
-      primaryKey: true,
-    },
-    Usuario_codigo: DataTypes.INTEGER,
-    Estoque_codigo: DataTypes.INTEGER,
-    quantidadeTotal: DataTypes.INTEGER,
-    valorTotal: DataTypes.FLOAT,
-    concluido: DataTypes.BOOLEAN
-  }, {
-    sequelize,
-    modelName: 'ItemPedido',
-    freezeTableName: true
-  });
-  return ItemPedido;
-};
+const mongoose = require('mongoose');
+const Schema = mongoose.Schema;
+
+const itemPedidoSchema = new Schema({
+  Usuario_codigo: {
+    type: Schema.Types.ObjectId,
+    ref: 'Usuario',
+    required: true,
+  },
+  Estoque_codigo: {
+    type: Schema.Types.ObjectId,
+    ref: 'Estoque',
+    required: true,
+  },
+  quantidadeTotal: {
+    type: Number,
+    required: true,
+  },
+  valorTotal: {
+    type: Number,
+    required: true,
+  },
+  concluido: {
+    type: Boolean,
+    default: false,
+  },
+}, {
+  timestamps: false,
+  collection: 'ItensPedidos',
+})
+
+module.exports = mongoose.model('ItemPedido', itemPedidoSchema);
