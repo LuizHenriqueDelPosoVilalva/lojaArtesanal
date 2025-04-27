@@ -44,8 +44,9 @@ const perfil = async (req, res) => {
 
 const cadastrar = async (req, res) => {
   try {
-    const { nome, email, telefone, cpf, endereco, numero, cidade, dataDeNascimento, senha, cargo } = req.body;
-
+    const { nome, email, telefone, cpf, endereco, numero, cidade, dataDeNascimento, senha } = req.body;
+    const cargo = req.params.cargo;
+  
     if (!nome || !email || !senha) {
       return res.status(400).render('error', { mensagem: 'Nome, email e senha são obrigatórios' });
     }
@@ -63,7 +64,8 @@ const cadastrar = async (req, res) => {
       .setAcesso(cargo === 'administrador' || cargo === 'profissional')
       .setCargo(cargo);
 
-    await usuarioBuilder.save();
+    const usuario = await usuarioBuilder.save();
+    await Usuario.create(usuario)
 
     res.status(201).render("success", { mensagem: "Usuário cadastrado com sucesso" });
   } catch (error) {

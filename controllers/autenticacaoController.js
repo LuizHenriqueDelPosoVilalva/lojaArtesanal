@@ -41,7 +41,7 @@ const login = async (req, res) => {
         }
 
         req.session.usuario = {
-            codigo: usuario.codigo,
+            _id: usuario._id,
             nome: usuario.nome,
             email: usuario.email,
             cargo: usuario.cargo
