@@ -3,7 +3,6 @@ const { Produto, Estoque } = require("../models");
 const listar = async (req, res) => {
   try {
     const produtos = await Produto.find()
-    console.log(produtos);
 
     if (req.session.usuario) {
       res.render("homeLogado", { produtos: produtos, usuario: req.session.usuario });

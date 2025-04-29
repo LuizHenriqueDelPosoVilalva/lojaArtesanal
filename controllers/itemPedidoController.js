@@ -1,8 +1,9 @@
 
-const { Estoque, ItemPedido, Produtos } = require ('../models');
+const { Estoque, ItemPedido, Produto } = require ('../models')
 
 const adicionarCarrinho = async (req, res) => {
     try {
+        console.log(req.body)
         const { produtoCodigo, usuarioCodigo, quantidade } = req.body;
 
         const estoque = await Estoque.findOne({
@@ -13,7 +14,7 @@ const adicionarCarrinho = async (req, res) => {
             return res.status(400).render("error", { mensagem: 'Estoque insuficiente ou produto não encontrado.' });
         }
 
-        const produto = await Produtos.findOne({
+        const produto = await Produto.findOne({
             codigo: produtoCodigo,
         });
 
@@ -35,7 +36,7 @@ const adicionarCarrinho = async (req, res) => {
     } catch (erro) {
         res.status(500).render("error", { mensagem: `${erro}` });
     }
-};
+}
 
 const listarCarrinho = async (req, res) => {
     try {
@@ -53,7 +54,7 @@ const listarCarrinho = async (req, res) => {
     } catch (erro) {
         return res.status(403).render('error', { mensagem: erro.message });
     }
-};
+}
 
 const concluirCarrinho = async (req, res) => {
     try {
@@ -87,10 +88,10 @@ const concluirCarrinho = async (req, res) => {
     } catch (erro) {
         res.status(500).render('error', { mensagem: `Erro ao concluir itens: ${erro}` });
     }
-};
+}
 
 module.exports = {
     adicionarCarrinho,
     listarCarrinho,
     concluirCarrinho
-};
+}

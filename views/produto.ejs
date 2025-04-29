@@ -29,8 +29,8 @@
                 <p class="text-xl font-semibold text-indigo-600 mb-4">Preço: <%= produto.preco.toFixed(2) %> R$</p>
 
                 <form action="/carrinho/adicionar" method="POST" class="flex flex-col space-y-4">
-                    <input type="hidden" name="produtoCodigo" value="<%= produto.codigo %>">
-                    <input type="hidden" name="usuarioCodigo" value="<%= usuario.codigo %>">
+                    <input type="hidden" name="produtoCodigo" value="<%= produto._id %>">
+                    <input type="hidden" name="usuarioCodigo" value="<%= usuario._id %>">
                     
                     <label for="quantidade" class="text-gray-700">Quantidade:</label>
                     <input 
