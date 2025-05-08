@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <title>Lista de usuarios cadastrados</title>
+</head>
+
+<body class="bg-gray-100 min-h-screen flex justify-center items-center">
+    <div class="w-full max-w-4xl bg-white shadow-lg rounded-lg p-6">
+        <h1 class="text-2xl font-bold text-gray-800 mb-6">Lista de Usuarios</h1>
+
+        <% if (usuarios.length> 0) { %>
+
+            <% usuarios.forEach(item=> { %>
+                <div class="flex items-center justify-between bg-gray-100 p-4 rounded mb-6">
+                    <div>
+                        <p class="text-lg font-medium text-gray-700">
+                            <%= item.nome %>
+                        </p>
+                        <p class="text-gray-600">Email: <%= item.email %>
+                        </p>
+                        <p class="text-gray-600">CPF: <%= item.cpf %>
+                        </p>
+                    </div>
+                    <div class="flex gap-4">
+                        <a href="/usuario/perfil/<%= item._id %>" class="bg-indigo-600 text-white px-4 py-2 rounded hover:bg-indigo-700">
+                            Editar
+                        </a>
+                        <form action="/usuario/bloquear/<%= item._id %>" method="POST">
+                            <input type="hidden" name="acesso" value="<%= !item.acesso %>">
+                            <button type="submit" class="<%= item.acesso ? 'bg-gray-400 hover:bg-gray-500' : 'bg-yellow-600 hover:bg-yellow-700' %> text-white px-4 py-2 rounded">
+                                <%= item.acesso ? 'Bloquear Acesso' : 'Liberar Acesso' %>
+                            </button>
+                        </form>
+                        <form action="/usuario/excluir/<%= item._id %>" method="POST"
+                            onsubmit="return confirm('Tem certeza que deseja excluir este usuario?');">
+                            <input type="hidden" name="_method" value="DELETE">
+                            <button type="submit" class="bg-red-600 text-white px-4 py-2 rounded hover:bg-red-700">
+                                Excluir
+                            </button>
+                        </form>
+                    </div>
+                </div>
+            <% }); %>
+        <% } else { %>
+            <p class="text-gray-600">Nenhum usuario cadastrado.</p>
+        <% } %>
+
+        <a href="/" class="mt-4 text-indigo-500 hover:underline">Voltar para a loja</a>
+    </div>
+</body>
+
+</html>
