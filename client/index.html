@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="">
+  <head>
+    <meta charset="UTF-8">
+    <link rel="icon" href="/favicon.ico">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Página com Menu Lateral, Cabeçalho, Rodapé e Lista de Postagens</title>
+    <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+    <title>Vite App</title>
+  </head>
+  <body class="flex flex-col min-h-screen">
+    <header class="bg-blue-600 text-white p-4">
+      <h1 class="text-2xl font-bold">Meu Site</h1>
+    </header>
+  
+    <div class="flex flex-1 overflow-hidden">
+  
+      <!-- Menu Lateral -->
+      <aside class="w-64 bg-gray-800 text-white flex-shrink-0 overflow-y-auto">
+        <div class="p-4 text-lg font-bold">Meu Menu</div>
+        <ul class="mt-6">
+          <li class="hover:bg-gray-700 p-2"><a href="#">Início</a></li>
+          <li class="hover:bg-gray-700 p-2"><a href="#">Sobre</a></li>
+          <li class="hover:bg-gray-700 p-2"><a href="#">Serviços</a></li>
+          <li class="hover:bg-gray-700 p-2"><a href="#">Contato</a></li>
+        </ul>
+      </aside>
+
+      <div id="app"></div>
+    </div>  
+    <!-- Rodapé -->
+    <footer class="bg-gray-800 text-white p-4 text-center">
+      <p>&copy; 2023 Meu Site. Todos os direitos reservados.</p>
+    </footer>
+    <script type="module" src="/src/main.js"></script>
+  </body>
+</html>

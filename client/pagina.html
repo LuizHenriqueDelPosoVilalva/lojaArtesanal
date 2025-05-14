@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Página com Menu Lateral, Cabeçalho, Rodapé e Lista de Postagens</title>
+  <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+</head>
+<body class="flex flex-col min-h-screen">
+
+  <!-- Cabeçalho -->
+  <header class="bg-blue-600 text-white p-4">
+    <h1 class="text-2xl font-bold">Meu Site</h1>
+  </header>
+
+  <div class="flex flex-1 overflow-hidden">
+
+    <!-- Menu Lateral -->
+    <aside class="w-64 bg-gray-800 text-white flex-shrink-0 overflow-y-auto">
+      <div class="p-4 text-lg font-bold">Meu Menu</div>
+      <ul class="mt-6">
+        <li class="hover:bg-gray-700 p-2"><a href="#">Início</a></li>
+        <li class="hover:bg-gray-700 p-2"><a href="#">Sobre</a></li>
+        <li class="hover:bg-gray-700 p-2"><a href="#">Serviços</a></li>
+        <li class="hover:bg-gray-700 p-2"><a href="#">Contato</a></li>
+      </ul>
+    </aside>
+
+    <!-- Conteúdo Principal -->
+    <main class="flex-1 p-10 overflow-y-auto bg-gray-50">
+      <h2 class="text-3xl font-bold">Bem-vindo à minha página!</h2>
+      <p class="mt-4">Este é um exemplo de uma página com um menu lateral, um cabeçalho, um rodapé e uma lista de postagens usando Tailwind CSS 4.1.</p>
+      
+      <h3 class="text-2xl mt-6">Lista de Postagens</h3>
+      <section class="mt-4 space-y-4">
+        <article class="bg-white shadow-md rounded-lg p-4">
+          <h4 class="text-xl font-semibold">Título da Postagem 1</h4>
+          <p class="text-gray-600">Esta é uma breve descrição da postagem 1. Aqui você pode adicionar mais detalhes sobre o conteúdo.</p>
+          <p class="text-gray-500 text-sm mt-2">Publicado em: 01/01/2023</p>
+        </article>
+        <article class="bg-white shadow-md rounded-lg p-4">
+          <h4 class="text-xl font-semibold">Título da Postagem 2</h4>
+          <p class="text-gray-600">Esta é uma breve descrição da postagem 2. Aqui você pode adicionar mais detalhes sobre o conteúdo.</p>
+          <p class="text-gray-500 text-sm mt-2">Publicado em: 15/01/2023</p>
+        </article>
+        <article class="bg-white shadow-md rounded-lg p-4">
+          <h4 class="text-xl font-semibold">Título da Postagem 3</h4>
+          <p class="text-gray-600">Esta é uma breve descrição da postagem 3. Aqui você pode adicionar mais detalhes sobre o conteúdo.</p>
+          <p class="text-gray-500 text-sm mt-2">Publicado em: 28/01/2023</p>
+        </article>
+      </section>
+    </main>
+  </div>
+
+  <!-- Rodapé -->
+  <footer class="bg-gray-800 text-white p-4 text-center">
+    <p>&copy; 2023 Meu Site. Todos os direitos reservados.</p>
+  </footer>
+
+  <script type="module" src="/src/main.js"></script>
+</body>
+</html>
