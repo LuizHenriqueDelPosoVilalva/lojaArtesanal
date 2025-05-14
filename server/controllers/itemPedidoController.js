@@ -3,20 +3,18 @@ const { Estoque, ItemPedido, Produto } = require ('../models')
 
 const adicionarCarrinho = async (req, res) => {
     try {
-        console.log(req.body)
         const { produtoCodigo, usuarioCodigo, quantidade } = req.body;
 
         const estoque = await Estoque.findOne({
             Produto_codigo: produtoCodigo,
-        });
+        })
+        console.log(estoque)
 
         if (!estoque || estoque.quantidade < quantidade) {
             return res.status(400).render("error", { mensagem: 'Estoque insuficiente ou produto não encontrado.' });
         }
 
-        const produto = await Produto.findOne({
-            codigo: produtoCodigo,
-        });
+        const produto = await Produto.findById(produtoCodigo)
 
         if (!produto) {
             return res.status(404).render("error", { mensagem: 'Produto não encontrado.' });
@@ -40,15 +38,20 @@ const adicionarCarrinho = async (req, res) => {
 
 const listarCarrinho = async (req, res) => {
     try {
-        const { usuarioCodigo } = req.params;
+        const { usuarioCodigo } = req.params
+        console.log("Chegou aqui: ", usuarioCodigo)
 
         const itensCarrinho = await ItemPedido.find({
             Usuario_codigo: usuarioCodigo,
             concluido: false,
-        }).populate({
-            path: 'Estoque_codigo',
-            populate: { path: 'Produto_codigo' },
-        });
+        })
+            .populate({
+                path: 'Estoque_codigo',
+                populate: { path: 'Produto_codigo' },
+            })
+            .lean()
+        
+        console.log("Itens do carrinho: ",itensCarrinho)
 
         res.render('carrinho', { itensCarrinho });
     } catch (erro) {

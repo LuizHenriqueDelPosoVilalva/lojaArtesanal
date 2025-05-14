@@ -17,13 +17,13 @@
       <% itensCarrinho.forEach(item => { %>
       <div class="flex items-center justify-between bg-gray-100 p-4 rounded">
         <div>
-          <p class="text-lg font-medium text-gray-700"><%= item.Estoque.Produto.nome %></p>
+          <p class="text-lg font-medium text-gray-700"><%= item.Estoque_codigo.Produto_codigo.nome %></p>
           <p class="text-gray-600">Quantidade: <%= item.quantidadeTotal %></p>
           <p class="text-gray-600">Preço: R$ <%= item.valorTotal.toFixed(2) %></p>
         </div>
-        <input type="checkbox" name="itensCodigo[]" value="<%= item.codigo %>" class="w-5 h-5">
+        <input type="checkbox" name="itensCodigo[]" value="<%= item._id %>" class="w-5 h-5">
       </div>
-      <% }); %>
+      <% }) %>
 
       <button type="submit"
         class="bg-indigo-600 text-white font-bold py-2 px-6 rounded hover:bg-indigo-700 transition duration-300">
