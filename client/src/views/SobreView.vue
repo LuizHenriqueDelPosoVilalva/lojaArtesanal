@@ -1,5 +1,5 @@
 <script setup>
-    import H1 from '@/components/h1.vue'
+    import H1 from '@/components/H1.vue'
 </script>
 
 <template>
