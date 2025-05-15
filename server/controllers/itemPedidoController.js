@@ -8,7 +8,6 @@ const adicionarCarrinho = async (req, res) => {
         const estoque = await Estoque.findOne({
             Produto_codigo: produtoCodigo,
         })
-        console.log(estoque)
 
         if (!estoque || estoque.quantidade < quantidade) {
             return res.status(400).render("error", { mensagem: 'Estoque insuficiente ou produto não encontrado.' });
@@ -39,7 +38,6 @@ const adicionarCarrinho = async (req, res) => {
 const listarCarrinho = async (req, res) => {
     try {
         const { usuarioCodigo } = req.params
-        console.log("Chegou aqui: ", usuarioCodigo)
 
         const itensCarrinho = await ItemPedido.find({
             Usuario_codigo: usuarioCodigo,
@@ -62,10 +60,10 @@ const listarCarrinho = async (req, res) => {
 const concluirCarrinho = async (req, res) => {
     try {
         const { itensCodigo } = req.body;
-
+        
         const itensCarrinho = await ItemPedido.find({
-            codigo: { $in: itensCodigo },
-        }).populate('Estoque_codigo');
+            _id: { $in: itensCodigo },
+        }).populate('Estoque_codigo')
 
         for (const item of itensCarrinho) {
             const estoque = await Estoque.findOne({
@@ -82,9 +80,8 @@ const concluirCarrinho = async (req, res) => {
             await estoque.save();
         }
 
-        await ItemPedido.updateMany(
-            { codigo: { $in: itensCodigo } },
-            { concluido: true }
+        await ItemPedido.deleteMany(
+            { _id: { $in: itensCodigo } }
         );
 
         res.status(201).render("success", { mensagem: "Compra Efetuada com Sucesso" });
