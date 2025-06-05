@@ -4,17 +4,11 @@ const listar = async (req, res) => {
   try {
     const produtos = await Produto.find()
 
-    if (req.session.usuario) {
-      res.render("homeLogado", { produtos: produtos, usuario: req.session.usuario });
-    } else {
-      res.render("home", { produtos: produtos });
-    }
+    res.status(200).json(produtos)
   } catch (error) {
-    console.error("Erro ao listar produtos:", error);
-    res.render("home", { produtos: [] });
-    throw new Error();
+    res.status(500).json({erro:"Algo deu errado na listagem de produtos"})
   }
-};
+}
 
 const buscarPorCodigo = async (req, res) => {
   try {

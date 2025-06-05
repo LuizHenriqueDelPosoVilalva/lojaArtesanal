@@ -1,27 +1,27 @@
-const { Usuario } = require('../models');
-const admin = require('../singleton/admin');
+const { Usuario } = require('../models')
+const admin = require('../singleton/admin')
 
 const autenticar = (req, res) => {
     try {
         res.render("forms/login");
     } catch (erro) {
-        res.status(500).render("error", { mensagem: erro.message });
+        res.status(500).render("error", { mensagem: erro.message })
     }
-};
+}
 
 const login = async (req, res) => {
     try {
 
-        const { email, senha } = req.body;
+        const { email, senha } = req.body
 
         if (!email || !senha) {
-            return res.status(403).render('error', { mensagem: 'Senha e email são obrigatórios' });
+            return res.status(403).render('error', { mensagem: 'Senha e email são obrigatórios' })
         }
        
-        const usuario = await Usuario.findOne({ email });
+        const usuario = await Usuario.findOne({ email })
 
         if (!usuario) {
-            return res.status(403).render('error', { mensagem: 'Usuario não encontrado' });
+            return res.status(403).render('error', { mensagem: 'Usuario não encontrado' })
         }
 
         if (usuario.senha !== senha) {
@@ -29,14 +29,14 @@ const login = async (req, res) => {
         }
 
         if (!usuario.acesso) {
-            return res.status(403).render('error', { mensagem: 'Acesso negado. Seu acesso está desativado.' });
+            return res.status(403).render('error', { mensagem: 'Acesso negado. Seu acesso está desativado.' })
         }
 
         if (usuario.cargo === 'administrador') {
             try {
-                admin.logarAdmin(usuario);
+                admin.logarAdmin(usuario)
             } catch (erro) {
-                return res.status(403).render('error', { mensagem: erro.message });
+                return res.status(403).render('error', { mensagem: erro.message })
             }
         }
 
@@ -45,13 +45,13 @@ const login = async (req, res) => {
             nome: usuario.nome,
             email: usuario.email,
             cargo: usuario.cargo
-        };
+        }
 
-        res.redirect('/');
+        res.status(200).json(req.session.Usuario).redirect('/')
     } catch (erro) {
-        res.status(500).render("error", { mensagem: erro.message });
+        res.status(500).render("error", { mensagem: erro.message })
     }
-};
+}
 
 const logout = (req, res) => {
     try {
@@ -68,10 +68,10 @@ const logout = (req, res) => {
     } catch (erro) {
         return res.status(403).render('error', { mensagem: erro.message });
     }
-};
+}
 
 module.exports = {
     login,
     logout,
     autenticar
-};
+}

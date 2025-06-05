@@ -13,4 +13,4 @@ router.get('/editar-produto/:id', middlewareAutenticacao(['administrador']), edi
 router.post('/atualizar-produto/:id', middlewareAutenticacao(['administrador']), atualizar)
 router.post('/excluir-produto/:id', middlewareAutenticacao(['administrador']), excluir)
 
-module.exports = router;
+module.exports = router
